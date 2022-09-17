@@ -32,7 +32,8 @@ node {
       def pubProfilesJson = sh script: "az webapp deployment list-publishing-profiles -g $resourceGroup -n $webAppName", returnStdout: true
       def ftpProfile = getFtpPublishProfile pubProfilesJson
       // upload package
-      sh "curl -T target/spring-boot-docker-complete-0.0.1-SNAPSHOT.jar $ftpProfile.url/webapps/ROOT.war -u '$ftpProfile.username:$ftpProfile.password'"
+      sh "curl -T target/spring-boot-docker-complete-0.0.1-SNAPSHOT.jar $ftpProfile.url/ROOT.war -u '$ftpProfile.username:$ftpProfile.password'"
+      sh "curl -T web.config $ftpProfile.url/web.config -u '$ftpProfile.username:$ftpProfile.password'"
       // log out
       sh 'az logout'
     }
